@@ -21,7 +21,7 @@ export const MIND_REVIEWS: MindReview[] = [
     {
         doctorName: "Олег Петров",
         doctorRole: "Врач-невролог, к.м.н.",
-        doctorAvatarUrl: MIND_IMAGES.doctors.volkov,
+        doctorAvatarUrl: MIND_IMAGES.doctors.petrova,
         text: "Обратилась с сильными головными болями. Доктор провела детальное обследование, нашла причину и подобрала терапию. Уже через две недели самочувствие значительно улучшилось.",
         authorName: "Елена К.",
         rating: 5,
