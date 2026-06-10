@@ -28,7 +28,7 @@ export const MIND_IMAGES = {
     /** Портреты врачей для карточек отзывов */
     doctors: {
         volkov: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=200&h=200&fit=crop&crop=face&auto=format",
-        petrova: "https://images.unsplash.com/photo-1551836022-d5d88e9218f0?w=200&h=200&fit=crop&crop=face&auto=format",
+        petrova: "https://img.freepik.com/free-photo/portrait-male-doctor_23-2148480369.jpg?w=200&h=200&fit=crop&crop=face&auto=format",
         sokolov: "https://images.unsplash.com/photo-1582750433449-63827b6db258?w=200&h=200&fit=crop&crop=face&auto=format",
     },
 } as const;
