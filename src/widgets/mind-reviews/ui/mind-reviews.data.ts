@@ -29,7 +29,7 @@ export const MIND_REVIEWS: MindReview[] = [
     {
         doctorName: "Игорь Соколов",
         doctorRole: "Эндокринолог, д.м.н.",
-        doctorAvatarUrl: MIND_IMAGES.doctors.volkov,
+        doctorAvatarUrl: MIND_IMAGES.doctors.sokolov,
         text: "Профессионал высочайшего уровня. Составил индивидуальную программу лечения, всё объяснил понятным языком. Результаты анализов улучшились уже через месяц.",
         authorName: "Дмитрий В.",
         rating: 5,
