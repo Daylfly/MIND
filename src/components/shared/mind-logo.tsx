@@ -6,8 +6,7 @@ interface MindLogoProps {
     className?: string;
     variant?: "default" | "white";
 }
-
-const LOGO_SRC = "/statics/logo-skin-expert.png";
+const LOGO_SRC = "/MIND/statics/logo-skin-expert.png"
 
 export const MindLogo: React.FC<MindLogoProps> = ({ className, variant = "default" }) => {
     return (
