@@ -1,10 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-    output: "export",
-    basePath: "/MIND",    // Указывает правильный путь для страниц
-    assetPrefix: "/MIND/", // ОБЯЗАТЕЛЬНО: Указывает правильный путь для стилей и скриптов
-
+    basePath: "/MIND",
+    assetPrefix: "/MIND/",
+    env: {
+        NEXT_PUBLIC_BASE_PATH: "/MIND",
+    },
     images: {
         unoptimized: true,
         remotePatterns: [

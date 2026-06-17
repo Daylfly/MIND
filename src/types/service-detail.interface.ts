@@ -2,6 +2,7 @@ import type { LucideIcon } from "lucide-react";
 
 export interface MindServiceDetail {
     id: string;
+    slug?: string;
     icon: LucideIcon;
     iconColor: string;
     iconBg: string;

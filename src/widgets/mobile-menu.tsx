@@ -6,7 +6,8 @@ import { MENU_DATA } from "@/data/menu.data";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useServiceBooking } from "@/components/shared/service-booking-provider";
-import { GENERAL_APPOINTMENT } from "@/widgets/mind-services/ui/mind-services.data";
+import { useAppData } from "@/components/shared/data-provider";
+import { useContacts } from "@/components/shared/contacts-provider";
 import { Phone, X } from "lucide-react";
 
 interface IMobileMenuProps {
@@ -16,6 +17,8 @@ interface IMobileMenuProps {
 
 const MobileMenu = ({ isOpen, onClose }: IMobileMenuProps) => {
     const { openBooking } = useServiceBooking();
+    const { generalService } = useAppData();
+    const { contacts } = useContacts();
 
     useEffect(() => {
         if (isOpen) {
@@ -70,21 +73,23 @@ const MobileMenu = ({ isOpen, onClose }: IMobileMenuProps) => {
 
                 <div className="mt-8 space-y-3 border-t border-gray-100 pt-6">
                     <a
-                        href="tel:88004002020"
+                        href={`tel:${contacts.phone.replace(/\s/g, "")}`}
                         className="flex items-center gap-2 text-sm font-medium text-gray-700"
                     >
                         <Phone className="h-4 w-4 text-mind-primary" />
-                        8 (800) 400-20-20
+                        {contacts.phone}
                     </a>
-                    <Button
-                        onClick={() => {
-                            onClose();
-                            openBooking(GENERAL_APPOINTMENT);
-                        }}
-                        className="w-full h-11 rounded-xl bg-mind-primary text-white hover:bg-mind-primary-dark"
-                    >
-                        Записаться
-                    </Button>
+                    {generalService && (
+                        <Button
+                            onClick={() => {
+                                onClose();
+                                openBooking(generalService);
+                            }}
+                            className="w-full h-11 rounded-xl bg-mind-primary text-white hover:bg-mind-primary-dark"
+                        >
+                            Записаться
+                        </Button>
+                    )}
                 </div>
             </aside>
         </>

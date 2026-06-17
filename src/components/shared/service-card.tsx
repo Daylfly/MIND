@@ -17,8 +17,17 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, className }) 
 
     return (
         <div
+            role="button"
+            tabIndex={0}
+            onClick={() => openBooking(service)}
+            onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    openBooking(service);
+                }
+            }}
             className={cn(
-                "flex flex-col rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md",
+                "flex flex-col rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md cursor-pointer",
                 className
             )}
         >
@@ -35,7 +44,10 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, className }) 
                 {service.description}
             </p>
             <Button
-                onClick={() => openBooking(service)}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    openBooking(service);
+                }}
                 className="h-11 w-full rounded-xl bg-mind-primary cursor-pointer text-white hover:bg-mind-primary-dark"
             >
                 Записаться

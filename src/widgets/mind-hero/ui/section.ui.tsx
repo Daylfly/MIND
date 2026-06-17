@@ -8,7 +8,7 @@ import { BookButton } from "@/components/shared/book-button";
 import { Button } from "@/components/ui/button";
 import { Phone } from "lucide-react";
 import { MIND_IMAGES } from "@/data/images.data";
-import { GENERAL_APPOINTMENT } from "@/widgets/mind-services/ui/mind-services.data";
+import { useAppData } from "@/components/shared/data-provider";
 import { HERO_CONTENT } from "./mind-hero.data";
 
 interface MindHeroProps {
@@ -16,6 +16,8 @@ interface MindHeroProps {
 }
 
 export const SectionUi: React.FC<MindHeroProps> = ({ className }) => {
+    const { generalService } = useAppData();
+
     return (
         <section id="hero" className={cn("py-12 sm:py-16 lg:py-24 bg-white", className)}>
             <Container>
@@ -33,12 +35,14 @@ export const SectionUi: React.FC<MindHeroProps> = ({ className }) => {
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-1">
-                            <BookButton
-                                service={GENERAL_APPOINTMENT}
-                                className="h-12 rounded-2xl cursor-pointer bg-mind-primary px-8 text-base font-medium text-white shadow-sm hover:bg-mind-primary-dark"
-                            >
-                                Записаться на прием
-                            </BookButton>
+                            {generalService && (
+                                <BookButton
+                                    service={generalService}
+                                    className="h-12 rounded-2xl cursor-pointer bg-mind-primary px-8 text-base font-medium text-white shadow-sm hover:bg-mind-primary-dark"
+                                >
+                                    Записаться на прием
+                                </BookButton>
+                            )}
                             <Button
                                 variant="outline"
                                 className=" border-border border-2 cursor-pointer h-12 rounded-2xl border-gray-200 bg-white px-8 text-base font-medium text-gray-900 hover:bg-gray-50"

@@ -1,14 +1,18 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import Container from "@/components/shared/container";
 import { ReviewCard } from "@/components/shared/review-card";
-import { Button } from "@/components/ui/button";
-import { MIND_REVIEWS, REVIEWS_SUBTITLE } from "./mind-reviews.data";
+import { useReviews } from "@/components/shared/reviews-provider";
+import { REVIEWS_SUBTITLE } from "./mind-reviews.data";
 
 interface MindReviewsProps {
     className?: string;
 }
 
 export const SectionUi: React.FC<MindReviewsProps> = ({ className }) => {
+    const { reviews, loading } = useReviews();
+
     return (
         <section
             id="reviews"
@@ -24,22 +28,25 @@ export const SectionUi: React.FC<MindReviewsProps> = ({ className }) => {
                             {REVIEWS_SUBTITLE}
                         </p>
                     </div>
-
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-                    {MIND_REVIEWS.map((review) => (
-                        <ReviewCard
-                            key={review.doctorName}
-                            doctorName={review.doctorName}
-                            doctorRole={review.doctorRole}
-                            text={review.text}
-                            authorName={review.authorName}
-                            doctorAvatarUrl={review.doctorAvatarUrl}
-                            rating={review.rating}
-                        />
-                    ))}
-                </div>
+                {loading ? (
+                    <p className="text-center text-mind-muted">Загрузка отзывов…</p>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+                        {reviews.map((review) => (
+                            <ReviewCard
+                                key={review.id}
+                                doctorName={review.doctorName}
+                                doctorRole={review.doctorRole}
+                                text={review.text}
+                                authorName={review.authorName}
+                                doctorAvatarUrl={review.doctorAvatarUrl}
+                                rating={review.rating}
+                            />
+                        ))}
+                    </div>
+                )}
             </Container>
         </section>
     );

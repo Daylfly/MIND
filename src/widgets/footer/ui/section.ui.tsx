@@ -1,15 +1,20 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import Container from "@/components/shared/container";
 import { MindLogo } from "@/components/shared/mind-logo";
 import Link from "next/link";
 import { MapPin, Phone, Mail } from "lucide-react";
-import { FOOTER_PATIENT_LINKS, FOOTER_CONTACTS, footerCopyright } from "./footer";
+import { useContacts } from "@/components/shared/contacts-provider";
+import { FOOTER_PATIENT_LINKS, footerCopyright } from "./footer";
 
 interface IFooterProps {
     className?: string;
 }
 
 export const SectionUi: React.FC<IFooterProps> = ({ className }) => {
+    const { contacts } = useContacts();
+
     return (
         <footer className={cn("w-full bg-mind-footer text-white", className)}>
             <Container>
@@ -43,18 +48,18 @@ export const SectionUi: React.FC<IFooterProps> = ({ className }) => {
                         <ul className="space-y-3">
                             <li className="flex items-start gap-3 text-sm text-white/60">
                                 <MapPin className="h-4 w-4 mt-0.5 shrink-0 text-white/40" />
-                                {FOOTER_CONTACTS.address}
+                                {contacts.address}
                             </li>
                             <li className="flex items-center gap-3 text-sm text-white/60">
                                 <Phone className="h-4 w-4 shrink-0 text-white/40" />
-                                <a href={`tel:${FOOTER_CONTACTS.phone.replace(/\s/g, "")}`} className="hover:text-white transition-colors">
-                                    {FOOTER_CONTACTS.phone}
+                                <a href={`tel:${contacts.phone.replace(/\s/g, "")}`} className="hover:text-white transition-colors">
+                                    {contacts.phone}
                                 </a>
                             </li>
                             <li className="flex items-center gap-3 text-sm text-white/60">
                                 <Mail className="h-4 w-4 shrink-0 text-white/40" />
-                                <a href={`mailto:${FOOTER_CONTACTS.email}`} className="hover:text-white transition-colors">
-                                    {FOOTER_CONTACTS.email}
+                                <a href={`mailto:${contacts.email}`} className="hover:text-white transition-colors">
+                                    {contacts.email}
                                 </a>
                             </li>
                         </ul>

@@ -4,8 +4,9 @@ import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { apiPath } from "@/lib/api-path";
 import type { MindServiceDetail } from "@/types/service-detail.interface";
-import { formatPrice } from "@/widgets/mind-services/ui/mind-services.data";
+import { formatPrice } from "@/lib/format-price";
 import { Calendar, CheckCircle2, Clock, Users, X } from "lucide-react";
 
 interface ServiceBookingModalProps {
@@ -30,6 +31,7 @@ export function ServiceBookingModal({ service, onClose }: ServiceBookingModalPro
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [date, setDate] = useState("");
+    const [submitting, setSubmitting] = useState(false);
 
     const isOpen = service !== null;
     const minDate = getMinDate();
@@ -61,9 +63,27 @@ export function ServiceBookingModal({ service, onClose }: ServiceBookingModalPro
 
     const Icon = service.icon;
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (name.trim() && phone.trim() && date) setStep("success");
+        if (!name.trim() || !phone.trim() || !date) return;
+
+        setSubmitting(true);
+        try {
+            await fetch(apiPath("/api/bookings"), {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    serviceId: service.id,
+                    serviceTitle: service.title,
+                    patientName: name.trim(),
+                    phone: phone.trim(),
+                    date,
+                }),
+            });
+            setStep("success");
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     return (
@@ -177,8 +197,13 @@ export function ServiceBookingModal({ service, onClose }: ServiceBookingModalPro
                     <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
                         <div>
                             <h3 className="mb-1 font-semibold text-gray-900">Ваши данные</h3>
-                            <p className="text-sm text-mind-muted mb-4">
+                            <p className="text-sm text-mind-muted mb-2">
                                 Оставьте контакты — мы перезвоним для подтверждения записи.
+                            </p>
+                            <p className="mb-4 rounded-xl bg-mind-mint px-3 py-2 text-xs text-mind-teal">
+                                Услуга: <span className="font-medium">{service.title}</span>
+                                {" · "}
+                                ID: <span className="font-mono">{service.id}</span>
                             </p>
                         </div>
 
@@ -225,9 +250,10 @@ export function ServiceBookingModal({ service, onClose }: ServiceBookingModalPro
                             </Button>
                             <Button
                                 type="submit"
+                                disabled={submitting}
                                 className="h-11 flex-1 rounded-xl bg-mind-primary text-white hover:bg-mind-primary-dark"
                             >
-                                Отправить
+                                {submitting ? "Отправка…" : "Отправить"}
                             </Button>
                         </div>
                     </form>
