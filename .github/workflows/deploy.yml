@@ -19,17 +19,36 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22 # Обновили до Node.js 22, чтобы убрать предупреждение о депрекации
           cache: npm
+
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5 # Обновили до актуальной v5
+
       - name: Install dependencies
         run: npm ci
+
+      - name: Generate Prisma Client
+        # Обязательный шаг для генерации типов Prisma до сборки Next.js
+        run: npx prisma generate
+        env:
+          DATABASE_URL: "file:./dev.db"
+
+      - name: Push Database Schema
+        # Создает пустой файл dev.db в памяти GitHub Actions, чтобы Next.js успешно скомпилировался
+        run: npx prisma db push --accept-data-loss
+        env:
+          DATABASE_URL: "file:./dev.db"
+
       - name: Build with Next.js
         run: npm run build
+        env:
+          DATABASE_URL: "file:./dev.db"
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
